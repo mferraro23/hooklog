@@ -10,7 +10,7 @@
   },
   "scripts": {
     "install:all": "npm install && npm --prefix api install && npm --prefix web install",
-    "storage": "azurite-table --location .azurite --silent",
+    "storage": "azurite --location .azurite --silent --skipApiVersionCheck",
     "dev": "concurrently -k -n storage,api,web,swa -c gray,magenta,cyan,green \"npm run storage\" \"npm --prefix api start\" \"npm --prefix web run dev\" \"swa start http://localhost:5173 --api-devserver-url http://localhost:7071\"",
     "build": "npm --prefix api run build && npm --prefix web run build"
   },
