@@ -11,9 +11,31 @@ export const error = (status: number, message: string) => json(status, { error: 
 /** Headers added by Azure's front end. They describe the hop, not the sender, so we hide them. */
 const INFRA_HEADER = /^(x-ms-|x-arr-|x-azure-|x-forwarded-|x-original-|x-waws-|x-site-|x-appservice-|x-client-|was-default-hostname$|disguised-host$|client-ip$|max-forwards$|x-envoy-|x-request-id$|traceparent$)/i;
 
-export const cleanHeaders = (headers: Iterable<[string, string]>): Record<string, string> => {
+/**
+ * Static Web Apps replaces the caller's Authorization header with its own short-lived
+ * token for the managed Functions backend. That token must never be stored or replayed.
+ */
+const isPlatformToken = (value: string): boolean => {
+	const jwt = value.match(/^Bearer ([\w-]+)\.([\w-]+)\.[\w-]+$/);
+	if (!jwt) return false;
+	try {
+		const claims = JSON.parse(Buffer.from(jwt[2], "base64url").toString("utf8")) as { iss?: string; aud?: string };
+		return /\.(scm\.)?azurewebsites\.net/i.test(`${claims.iss ?? ""} ${claims.aud ?? ""}`);
+	} catch {
+		return false;
+	}
+};
+
+export const cleanHeaders = (headers: Headers): Record<string, string> => {
 	const out: Record<string, string> = {};
-	for (const [k, v] of headers) if (!INFRA_HEADER.test(k)) out[k.toLowerCase()] = v;
+	for (const [k, v] of headers.entries()) {
+		if (INFRA_HEADER.test(k)) continue;
+		if (k === "authorization" && isPlatformToken(v)) continue;
+		out[k.toLowerCase()] = v;
+	}
+	// Show the host the sender actually called, not the internal backend host.
+	const publicHost = headers.get("x-forwarded-host") ?? headers.get("x-original-host");
+	if (publicHost) out.host = publicHost.split(",")[0].trim();
 	return out;
 };
 

@@ -41,7 +41,7 @@ const capture = async (req: HttpRequest): Promise<HttpResponseInit> => {
 		method: req.method,
 		path,
 		query: url.search,
-		headers: JSON.stringify(cleanHeaders(req.headers.entries())),
+		headers: JSON.stringify(cleanHeaders(req.headers)),
 		contentType,
 		size: raw.length,
 		sourceIp: sourceIpFrom(req.headers),

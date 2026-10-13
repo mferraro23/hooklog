@@ -85,7 +85,14 @@ export const RequestDetail = ({ endpointId, requestId }: { endpointId: string; r
 						)}
 					</>
 				)}
-				{tab === "headers" && <KeyValueTable rows={headers} empty="No headers." />}
+				{tab === "headers" && (
+					<>
+						<KeyValueTable rows={headers} empty="No headers." />
+						<p className="mt-3 text-xs text-dim">
+							Azure Static Web Apps doesn't pass an incoming <code className="font-mono">Authorization</code> header through, so it isn't captured.
+						</p>
+					</>
+				)}
 				{tab === "query" && <KeyValueTable rows={query} empty="No query string." />}
 				{tab === "replay" && <Replay endpointId={endpointId} requestId={requestId} />}
 			</div>

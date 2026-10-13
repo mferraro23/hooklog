@@ -92,6 +92,7 @@ The Bicep template adds a $5 monthly budget alert when you pass `alertEmail`.
 
 - Bodies are stored up to 256 KB. Larger bodies are kept truncated and flagged.
 - 200 requests per endpoint. Endpoints and their data are deleted 7 days after creation.
+- The sender's `Authorization` header can't be captured: Static Web Apps replaces it with its own internal token before the request reaches the Functions. hooklog drops that token so it's never stored or replayed. Signature headers like `stripe-signature` and `x-hub-signature-256` come through fine.
 - An endpoint's URL is its only credential (about 96 random bits). Anyone with the URL can see its requests, so don't send production secrets to it.
 
 ## Roadmap
