@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { background: #0c0d10; color-scheme: dark; }
+  body { @apply bg-bg font-sans text-body antialiased; min-width: 320px; }
+  ::selection { background: rgba(245, 165, 36, .3); color: #f2f3f5; }
+  :focus-visible { outline: 2px solid #f5a524; outline-offset: 2px; border-radius: 6px; }
+}
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line2 px-3.5 py-2 text-sm font-medium text-ink transition-colors hover:border-muted disabled:opacity-50; }
+  .btn-primary { @apply border-hook bg-hook text-bg hover:bg-amber-400 hover:border-amber-400; }
+  .btn-ghost { @apply border-transparent text-muted hover:border-line2 hover:text-ink; }
+  .input { @apply w-full rounded-lg border border-line2 bg-bg px-3 py-2 font-mono text-sm text-ink placeholder:text-dim focus:border-hook focus:outline-none; }
+  .label { @apply font-mono text-[11px] uppercase tracking-wider text-dim; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

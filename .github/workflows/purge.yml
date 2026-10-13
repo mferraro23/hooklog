@@ -1,0 +1,16 @@
+name: Purge expired endpoints
+
+# Static Web Apps' managed functions can't run on a timer, so GitHub runs the cleanup.
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    if: vars.HOOKLOG_URL != ''
+    steps:
+      - run: |
+          curl -fsS -X POST "${{ vars.HOOKLOG_URL }}/api/maintenance/purge" \
+            -H "x-admin-key: ${{ secrets.HOOKLOG_ADMIN_KEY }}"

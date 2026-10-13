@@ -1,0 +1,27 @@
+{
+  "name": "hooklog",
+  "private": true,
+  "description": "Capture, inspect, replay and forward webhooks.",
+  "bin": {
+    "hooklog": "cli/hooklog.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "install:all": "npm install && npm --prefix api install && npm --prefix web install",
+    "storage": "azurite-table --location .azurite --silent",
+    "dev": "concurrently -k -n storage,api,web,swa -c gray,magenta,cyan,green \"npm run storage\" \"npm --prefix api start\" \"npm --prefix web run dev\" \"swa start http://localhost:5173 --api-devserver-url http://localhost:7071\"",
+    "build": "npm --prefix api run build && npm --prefix web run build"
+  },
+  "devDependencies": {
+    "@azure/static-web-apps-cli": "^2.0.2",
+    "azure-functions-core-tools": "^4.0.6610",
+    "azurite": "^3.33.0",
+    "concurrently": "^9.1.0"
+  },
+  "allowScripts": {
+    "azure-functions-core-tools@4.16.0": true,
+    "keytar": false
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/api/*", "/assets/*", "/*.{css,js,svg,png,ico,json}"]
+  },
+  "platform": { "apiRuntime": "node:20" },
+  "globalHeaders": {
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "no-referrer"
+  }
+}

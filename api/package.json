@@ -1,0 +1,20 @@
+{
+  "name": "hooklog-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/functions/*.js",
+  "scripts": {
+    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsc",
+    "watch": "tsc -w",
+    "prestart": "npm run build",
+    "start": "func start --port 7071"
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.3.0",
+    "@azure/functions": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "typescript": "^5.6.3"
+  }
+}
