@@ -9,8 +9,8 @@ on:
 jobs:
   purge:
     runs-on: ubuntu-latest
-    if: vars.HOOKLOG_URL != ''
+    if: vars.HOOKPEEK_URL != ''
     steps:
       - run: |
-          curl -fsS -X POST "${{ vars.HOOKLOG_URL }}/api/maintenance/purge" \
-            -H "x-admin-key: ${{ secrets.HOOKLOG_ADMIN_KEY }}"
+          curl -fsS -X POST "${{ vars.HOOKPEEK_URL }}/api/maintenance/purge" \
+            -H "x-admin-key: ${{ secrets.HOOKPEEK_ADMIN_KEY }}"

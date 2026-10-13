@@ -1,4 +1,4 @@
-// hooklog infrastructure: one Static Web App (Free) + one Storage account for Table Storage.
+// hookpeek infrastructure: one Static Web App (Free) + one Storage account for Table Storage.
 // Deploy: az deployment group create -g <rg> -f infra/main.bicep -p adminKey=<secret> alertEmail=<you@example.com>
 
 @description('Region for the Static Web App. The Free plan is only offered in a few regions.')

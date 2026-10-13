@@ -100,7 +100,7 @@ export const RequestDetail = ({ endpointId, requestId }: { endpointId: string; r
 	);
 };
 
-const LAST_TARGET = "hooklog:replay-target";
+const LAST_TARGET = "hookpeek:replay-target";
 
 const Replay = ({ endpointId, requestId }: { endpointId: string; requestId: string }) => {
 	const [url, setUrl] = useState(() => {

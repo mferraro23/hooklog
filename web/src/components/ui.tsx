@@ -14,7 +14,7 @@ export const Logo = () => (
 			<path d="M38 10v26a10 10 0 1 1-20 0v-4" fill="none" stroke="#f5a524" strokeWidth="7" strokeLinecap="round" />
 			<path d="M11 37l7-7 7 7" fill="none" stroke="#f5a524" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
 		</svg>
-		hooklog
+		hookpeek
 	</a>
 );
 

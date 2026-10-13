@@ -17,7 +17,7 @@ jobs:
           node-version: 20
       - run: npm ci --prefix api && npm run build --prefix api
       - run: npm ci --prefix web && npm run build --prefix web
-      - run: node --check cli/hooklog.mjs
+      - run: node --check cli/hookpeek.mjs
 
   deploy:
     needs: check

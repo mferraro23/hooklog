@@ -117,7 +117,7 @@ app.http("replayRequest", {
 
 		const headers = new Headers();
 		for (const [k, v] of Object.entries(stored.headers)) if (!HOP_HEADERS.has(k)) headers.set(k, v);
-		headers.set("x-hooklog-replay", rid);
+		headers.set("x-hookpeek-replay", rid);
 
 		const hasBody = !["GET", "HEAD"].includes(stored.method) && !!stored.body;
 		const body = hasBody ? Buffer.from(stored.body!, stored.bodyEncoding === "base64" ? "base64" : "utf8") : undefined;

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// hooklog CLI: forwards webhooks captured by a hooklog endpoint to a local server.
-// Usage: hooklog listen <endpoint-id> --to http://localhost:3000 [--server https://your-hooklog-host]
+// hookpeek CLI: forwards webhooks captured by a hookpeek endpoint to a local server.
+// Usage: hookpeek listen <endpoint-id> --to http://localhost:3000 [--server https://your-hookpeek-host]
 // Requires Node 18+ (global fetch). No dependencies.
 
-const DEFAULT_SERVER = process.env.HOOKLOG_SERVER;
+const DEFAULT_SERVER = process.env.HOOKPEEK_SERVER;
 const POLL_MS = 1500;
 const HOP = new Set(["host", "content-length", "connection", "keep-alive", "transfer-encoding", "accept-encoding", "upgrade"]);
 
@@ -17,12 +17,12 @@ const c = {
 
 const usage = () => {
 	console.log(`
-${c.bold("hooklog")} — forward captured webhooks to your machine
+${c.bold("hookpeek")} — forward captured webhooks to your machine
 
-  ${c.bold("hooklog listen")} <endpoint-id> --to <url> [--server <url>]
+  ${c.bold("hookpeek listen")} <endpoint-id> --to <url> [--server <url>]
 
   --to       where to forward, e.g. http://localhost:3000
-  --server   your hooklog host, e.g. https://hooklog.example.com (or set $HOOKLOG_SERVER)
+  --server   your hookpeek host, e.g. https://hookpeek.example.com (or set $HOOKPEEK_SERVER)
 `);
 	process.exit(1);
 };

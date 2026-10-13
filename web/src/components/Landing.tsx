@@ -3,7 +3,7 @@ import { api } from "../api";
 import { daysLeft, navigate, recentEndpoints, rememberEndpoint } from "../lib";
 import { Code, Logo } from "./ui";
 
-export const REPO_URL = "https://github.com/mferraro23/hooklog";
+export const REPO_URL = "https://github.com/mferraro23/hookpeek";
 const PORTFOLIO_URL = "https://michaelferraro.dev";
 
 const FEATURES = [
@@ -102,7 +102,7 @@ export const Landing = () => {
 					</div>
 					<div>
 						<p className="label">forward to your machine</p>
-						<Code className="mt-3">{`npx github:mferraro23/hooklog listen <id> \\
+						<Code className="mt-3">{`npx github:mferraro23/hookpeek listen <id> \\
   --to http://localhost:3000 --server ${window.location.origin}`}</Code>
 					</div>
 				</section>

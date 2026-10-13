@@ -1,9 +1,9 @@
 {
-  "name": "hooklog",
+  "name": "hookpeek",
   "private": true,
   "description": "Capture, inspect, replay and forward webhooks.",
   "bin": {
-    "hooklog": "cli/hooklog.mjs"
+    "hookpeek": "cli/hookpeek.mjs"
   },
   "engines": {
     "node": ">=18"

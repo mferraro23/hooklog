@@ -68,7 +68,7 @@ export const Dashboard = ({ id }: { id: string }) => {
 	const sendTest = async () => {
 		await fetch(`${hookUrl(id)}/test?source=dashboard`, {
 			method: "POST",
-			headers: { "content-type": "application/json", "x-hooklog-test": "1" },
+			headers: { "content-type": "application/json", "x-hookpeek-test": "1" },
 			body: JSON.stringify({ ...SAMPLE, created: Math.floor(Date.now() / 1000) }),
 		});
 		poll();
@@ -184,7 +184,7 @@ const Waiting = ({ id, url }: { id: string; url: string }) => (
   -H 'content-type: application/json' \\
   -d '{"hello":"world"}'`}</Code>
 		<p className="label mt-6">forward to localhost</p>
-		<Code className="mt-2">{`npx github:mferraro23/hooklog listen ${id} \\
+		<Code className="mt-2">{`npx github:mferraro23/hookpeek listen ${id} \\
   --to http://localhost:3000 --server ${window.location.origin}`}</Code>
 	</div>
 );

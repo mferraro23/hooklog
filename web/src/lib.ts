@@ -57,7 +57,7 @@ export const toCurl = (r: CapturedRequest, baseUrl: string) => {
 };
 
 // ---------- local memory of endpoints this browser created ----------
-const KEY = "hooklog:endpoints";
+const KEY = "hookpeek:endpoints";
 
 export const rememberEndpoint = (id: string, expiresAt: string) => {
 	try {

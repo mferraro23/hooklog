@@ -1,4 +1,4 @@
-# hooklog
+# hookpeek
 
 Catch, inspect, replay, and forward webhooks.
 
@@ -13,7 +13,7 @@ It runs entirely on Azure's free and near-free tiers.
                                     │  Azure Static Web Apps (Free)
  dashboard (React) ◄── /api/... ────┤  └─ managed Azure Functions (TypeScript)
                                     │
- hooklog CLI ──► polls, forwards ───┘        Azure Table Storage
+ hookpeek CLI ──► polls, forwards ───┘        Azure Table Storage
      └──► http://localhost:3000                 endpoints · requests
 ```
 
@@ -21,7 +21,7 @@ It runs entirely on Azure's free and near-free tiers.
 | --- | --- |
 | `web/` | React + TypeScript + Tailwind dashboard. Polls for new requests every 2 seconds and pauses when the tab is hidden. |
 | `api/` | Azure Functions (Node 20, v4 model). Capture, list, detail, clear, replay, and purge. |
-| `cli/hooklog.mjs` | Dependency-free Node CLI that forwards new requests to a local server. |
+| `cli/hookpeek.mjs` | Dependency-free Node CLI that forwards new requests to a local server. |
 | `infra/main.bicep` | Storage account, Static Web App (Free), app settings, and an optional $5/month budget alert. |
 | `.github/workflows` | Build checks and deploy on push. A daily job purges expired endpoints. |
 
@@ -49,7 +49,7 @@ The first time, copy `api/local.settings.example.json` to `api/local.settings.js
 ## Use the CLI
 
 ```bash
-npx github:mferraro23/hooklog listen <endpoint-id> --to http://localhost:3000 --server https://<your-hooklog-host>
+npx github:mferraro23/hookpeek listen <endpoint-id> --to http://localhost:3000 --server https://<your-hookpeek-host>
 ```
 
 Only requests that arrive after the CLI starts are forwarded. Each one is replayed with its original method, path, query, headers, and body.
@@ -60,23 +60,23 @@ You need the Azure CLI (`az`) and the GitHub CLI (`gh`).
 
 ```bash
 az login
-az group create -n hooklog-rg -l eastus2
+az group create -n hookpeek-rg -l eastus2
 
 ADMIN_KEY=$(openssl rand -hex 32)
-az deployment group create -g hooklog-rg -f infra/main.bicep \
+az deployment group create -g hookpeek-rg -f infra/main.bicep \
   -p adminKey=$ADMIN_KEY alertEmail=you@example.com
 
-SWA=$(az deployment group show -g hooklog-rg -n main --query properties.outputs.staticWebAppName.value -o tsv)
-URL=$(az deployment group show -g hooklog-rg -n main --query properties.outputs.url.value -o tsv)
+SWA=$(az deployment group show -g hookpeek-rg -n main --query properties.outputs.staticWebAppName.value -o tsv)
+URL=$(az deployment group show -g hookpeek-rg -n main --query properties.outputs.url.value -o tsv)
 
 gh secret set AZURE_STATIC_WEB_APPS_API_TOKEN --body "$(az staticwebapp secrets list -n $SWA --query properties.apiKey -o tsv)"
-gh secret set HOOKLOG_ADMIN_KEY --body "$ADMIN_KEY"
-gh variable set HOOKLOG_URL --body "$URL"
+gh secret set HOOKPEEK_ADMIN_KEY --body "$ADMIN_KEY"
+gh variable set HOOKPEEK_URL --body "$URL"
 
 git push   # the Build & deploy workflow publishes the site
 ```
 
-To use a custom domain such as `hooklog.yourdomain.com`, add a CNAME pointing at the Static Web App's hostname, then run `az staticwebapp hostname set -n $SWA --hostname hooklog.yourdomain.com`.
+To use a custom domain such as `hookpeek.yourdomain.com`, add a CNAME pointing at the Static Web App's hostname, then run `az staticwebapp hostname set -n $SWA --hostname hookpeek.yourdomain.com`.
 
 ### Cost
 
@@ -92,7 +92,7 @@ The Bicep template adds a $5 monthly budget alert when you pass `alertEmail`.
 
 - Bodies are stored up to 256 KB. Larger bodies are kept truncated and flagged.
 - 200 requests per endpoint. Endpoints and their data are deleted 7 days after creation.
-- The sender's `Authorization` header can't be captured: Static Web Apps replaces it with its own internal token before the request reaches the Functions. hooklog drops that token so it's never stored or replayed. Signature headers like `stripe-signature` and `x-hub-signature-256` come through fine.
+- The sender's `Authorization` header can't be captured: Static Web Apps replaces it with its own internal token before the request reaches the Functions. hookpeek drops that token so it's never stored or replayed. Signature headers like `stripe-signature` and `x-hub-signature-256` come through fine.
 - An endpoint's URL is its only credential (about 96 random bits). Anyone with the URL can see its requests, so don't send production secrets to it.
 
 ## Roadmap
