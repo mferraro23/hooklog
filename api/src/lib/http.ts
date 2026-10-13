@@ -34,8 +34,17 @@ export const cleanHeaders = (headers: Headers): Record<string, string> => {
 		out[k.toLowerCase()] = v;
 	}
 	// Show the host the sender actually called, not the internal backend host.
-	const publicHost = headers.get("x-forwarded-host") ?? headers.get("x-original-host");
+	let publicHost = headers.get("x-forwarded-host") ?? headers.get("x-original-host");
+	const originalUrl = headers.get("x-ms-original-url");
+	if (!publicHost && originalUrl) {
+		try {
+			publicHost = new URL(originalUrl).host;
+		} catch {
+			/* not a full URL */
+		}
+	}
 	if (publicHost) out.host = publicHost.split(",")[0].trim();
+	else if (out.host?.endsWith(".azurewebsites.net")) delete out.host;
 	return out;
 };
 
